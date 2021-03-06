@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+{% load static%}
+{%block title%}HOME_PAGE{% endblock %} 
+ {% block content%} 
+
+<div class ="row">
+	<div class="col-md-5">
+		<h3 class="bg-light p-3">Registrations Form</h3>
+  <form method="POST" accept-charset="UTF-8" >
+
+    {% csrf_token%}
+    {{fm.as_p}}
+      <button type="submit" class="btn btn-outline-success" >Submit</button>
+</form>
+
+
+
+	</div>
+	<div class="col-md-7 col-sm-4 ">
+		<h3 class="bg-light p-3">Data From DataBase</h3>
+		<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">City</th>
+       <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for st in stu %}
+    <tr>
+  	 <th scope="row">{{st.id}}</th>
+      <td>{{st.fname}}</td>
+      <td>{{st.email}}</td>
+      <td>{{st.city}}</td>
+      <td>
+              <form action="{% url 'edit' st.id %}" method="POST">
+      {%csrf_token%}
+      <button type="submit" class="btn btn-outline-primary">
+          <i class="far fa-edit"></i>
+      </button>
+              </form>
+      <td>
+         <form action="{% url 'delete' st.id %}" method="POST">
+      {%csrf_token%}
+        <button type="submit" class="btn btn-outline-danger"><i class="far fa-trash-alt"></i></button>
+         </form>
+    </td>
+    <tr>
+     {%endfor%}
+  </tbody>
+</table>
+	</div>
+</div>
+
+ {% endblock content %}
